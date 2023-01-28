@@ -1,0 +1,17 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug gen-readme proyect",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": ["--org-name=tecnopro","--repo-name=l10n-paraguay", "--branch=13.0", "--addons-dir=/odoo/ar/odoo-13.0e/testpy/sources/l10n-paraguay"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}
