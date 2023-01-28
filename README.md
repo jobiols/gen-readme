@@ -66,6 +66,6 @@ We recommend to set a small make_readme.sh file in each repo as this
 
     gen-readme \
         --org-name quilsoft-org \
-        --repo-name tony_star \
+        --repo-name star_enterprises \
         --branch 16.0 \
         --addons-dir "$PWD"
