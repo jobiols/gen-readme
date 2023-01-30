@@ -35,7 +35,7 @@ The result is a fully pypi compilant README.rst in the root of each module of th
 Installation
 ------------
 
-    sudo pip install gen_odoo_readme
+    sudo pip install gen-odoo-readme
 
 see proyect in https://pypi.org/project/gen-odoo-readme/
 
