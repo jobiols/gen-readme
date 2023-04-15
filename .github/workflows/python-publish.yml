@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: ${{ github.actor }} is Uploading Python Package
+name: Uploading Python Package
 
 on:
   release:
