@@ -18,6 +18,12 @@ jobs:
         with:
           python-version: '3.8'
 
+      - uses: actions/cache@v3
+        name: Preparar cache para reducir tiempo de ejecución
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit|${{ env.PY }}|${{ hashFiles('.pre-commit-config.yaml') }}
+
       - name: Install pre-commit
         run: pip install pre-commit
 
