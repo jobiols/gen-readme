@@ -6,7 +6,8 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: ${{ github.actor }} is Uploading Python Package
+name: Uploading Python Package
+run-name: ${{ github.actor }} is Uploading Python Package
 
 on:
   release:
@@ -32,7 +33,7 @@ jobs:
     - name: Build package
       run: python -m build
     - name: Publish package
-      uses: pypa/gh-action-pypi-publish@1.8.5
+      uses: pypa/gh-action-pypi-publish@v1.8.5
       with:
         user: __token__
         password: ${{ secrets.UPLOAD_GEN_README }}
