@@ -179,7 +179,7 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
             fragment_name + ".rst",
         )
         if os.path.exists(fragment_filename):
-            with open(fragment_filename, "r", encoding="utf8") as f:
+            with open(fragment_filename, encoding="utf8") as f:
                 fragment = generate_fragment(org_name, repo_name, branch, addon_name, f)
                 if fragment:
                     fragments[fragment_name] = fragment
@@ -205,7 +205,7 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
         os.path.dirname(__file__), "gen_addon_readme.template"
     )
     readme_filename = os.path.join(addon_dir, "README.rst")
-    with open(template_filename, "r", encoding="utf8") as tf:
+    with open(template_filename, encoding="utf8") as tf:
         template = Template(tf.read())
     with open(readme_filename, "w", encoding="utf8") as rf:
         rf.write(
