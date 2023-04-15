@@ -7,6 +7,7 @@
 # documentation.
 
 name: Uploading Python Package
+run-name: ${{ github.actor }} is Uploading Python Package
 
 on:
   release:
