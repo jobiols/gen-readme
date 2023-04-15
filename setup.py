@@ -5,9 +5,11 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+from tools import __version__
+
 setuptools.setup(
     name='gen-odoo-readme',
-    version='0.1.0',
+    version=__version__,
     author='Jorge E. Obiols',
     description='Tool to create README.rst files for Odoo',
     long_description=long_description,
@@ -22,7 +24,7 @@ setuptools.setup(
     },
     include_package_data=True,
     data_files=[('mypackage', ['tools/gen_addon_readme.template'])],
-    install_requires=[],
+    install_requires=["click==8.1.3", "jinja2==3.1.2", "docutils==0.19"],
 
     packages=setuptools.find_packages(),
     classifiers=[
