@@ -222,7 +222,7 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
             )
         )
         # Agregar una linea en blanco al final del RST para que no falle el test
-        # W7908(missing-newline-extrafiles)
+        # W7908(missing-newline-extrafiles).
         rf.write("\n")
     return readme_filename
 
