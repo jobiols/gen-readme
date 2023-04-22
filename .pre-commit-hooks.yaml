@@ -2,8 +2,6 @@
   name: gen-readme
   entry: gen-readme
   language: python
-  types: [text]
-  require_serial: false
   args:
     - "--org-name"
     - "--repo-name"
