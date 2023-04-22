@@ -1,13 +1,12 @@
 - id: gen-readme
   name: gen-readme
   entry: gen-readme
-  language: rst
+  language: python
   types: [text]
   require_serial: false
-  args: 
+  args:
     - "--org-name"
     - "--repo-name"
     - "--branch"
     - "--addons-dir"
     - "--gen-html"
-    
