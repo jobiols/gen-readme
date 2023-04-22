@@ -6,5 +6,4 @@
     - "--org-name"
     - "--repo-name"
     - "--branch"
-    - "--addons-dir"
     - "--gen-html"

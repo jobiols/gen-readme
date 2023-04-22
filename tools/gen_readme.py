@@ -246,7 +246,7 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
 @click.option(
     "--addons-dir",
     type=click.Path(dir_okay=True, file_okay=False, exists=True),
-    required=True,
+    required=False,
     help="Directory containing several addons, the README will be "
     "generated for all installable addons found there.",
 )
@@ -256,6 +256,11 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
     help="Generate index html file.",
 )
 def gen_readme(org_name, repo_name, branch, addons_dir, gen_html):
+    """main function"""
+
+    print("Gen Readme ------------------")
+    print(os.path.abspath(__file__))
+
     addons = list()
     if addons_dir:
         addons.extend(find_addons(addons_dir))
