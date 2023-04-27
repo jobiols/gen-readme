@@ -3,11 +3,8 @@ import setuptools
 with open("README.md") as fh:
     long_description = fh.read()
 
-from tools import __version__
-
 setuptools.setup(
     name="gen-odoo-readme",
-    version=__version__,
     author="Jorge E. Obiols",
     description="Tool to create README.rst files for Odoo",
     long_description=long_description,

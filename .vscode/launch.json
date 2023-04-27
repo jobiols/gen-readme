@@ -5,13 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "args": ["/home/jobiols/git-repos/gen-readme/tools/manifest.py", "/home/jobiols/git-repos/gen-readme/tools/gen_readme.py", "--org-name=tecnopro","--repo-name=l10n-paraguay", "--branch=13.0"],
             "name": "Debug gen-readme proyect",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
-            "args": ["--org-name=tecnopro","--repo-name=l10n-paraguay", "--branch=13.0", "--addons-dir=/odoo/ar/odoo-13.0e/testpy/sources/l10n-paraguay"],
             "console": "integratedTerminal",
-            "justMyCode": true
+            "justMyCode": true,
+            "module": "tools.__main__"
+
         }
     ]
 }
