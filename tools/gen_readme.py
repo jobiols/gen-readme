@@ -228,6 +228,11 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
 
 
 @click.command()
+@click.argument(
+    "files",
+    type=click.Path(exists=False),
+    nargs=-1,
+)
 @click.option(
     "--org-name",
     required=True,
@@ -245,21 +250,23 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
 )
 @click.option(
     "--addons-dir",
-    type=click.Path(dir_okay=True, file_okay=False, exists=True),
+    type=click.Path(dir_okay=True, file_okay=False, exists=False),
     required=False,
     help="Directory containing several addons, the README will be "
-    "generated for all installable addons found there.",
+    "generated for all installable addons found there...",
 )
 @click.option(
     "--gen-html/--no-gen-html",
     default=True,
     help="Generate index html file.",
 )
-def gen_readme(org_name, repo_name, branch, addons_dir, gen_html):
+def gen_readme(files, org_name, repo_name, branch, addons_dir, gen_html):
     """main function"""
 
-    print("Gen Readme ------------------")
-    print(os.path.abspath(__file__))
+    print("Gen Readme!")
+    print("path -->", os.path.abspath(__file__))
+    print("files -- ", files)
+    exit()
 
     addons = list()
     if addons_dir:
@@ -281,7 +288,3 @@ def gen_readme(org_name, repo_name, branch, addons_dir, gen_html):
             index_filename = gen_one_addon_index(readme_filename)
             if index_filename:
                 readme_filenames.append(index_filename)
-
-
-if __name__ == "__main__":
-    gen_readme()
