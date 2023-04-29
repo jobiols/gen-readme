@@ -1,6 +1,7 @@
 import click
 import os
 import re
+import sys
 from .manifest import find_addons
 from jinja2 import Template
 from docutils.core import publish_file
@@ -263,9 +264,9 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
 def gen_readme(files, org_name, repo_name, branch, addons_dir, gen_html):
     """main function"""
 
-    print("Gen Readme!")
-    print("path -->", os.path.abspath(__file__))
-    print("files -- ", files)
+    print("Gen Readme!", sys.stdout)
+    print("path -->", os.path.abspath(__file__), sys.stdout)
+    print("files -- ", files, sys.stdout)
     exit()
 
     addons = list()
