@@ -267,7 +267,7 @@ def gen_readme(files, org_name, repo_name, branch, addons_dir, gen_html):
     print("Gen Readme!", sys.stdout)
     print("path -->", os.path.abspath(__file__), sys.stdout)
     print("files -- ", files, sys.stdout)
-    exit()
+    exit(1)
 
     addons = list()
     if addons_dir:
