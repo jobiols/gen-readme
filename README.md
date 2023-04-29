@@ -69,3 +69,10 @@ We recommend to set a small make_readme.sh file in each repo as this
         --repo-name star_enterprises \
         --branch 16.0 \
         --addons-dir "$PWD"
+
+pre-commit hook
+
+  - repo: https://github.com/jobiols/gen-readme.git
+    rev: 1.0.16
+    hooks:
+      - id: gen-readme
