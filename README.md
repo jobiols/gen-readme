@@ -71,8 +71,12 @@ We recommend to set a small make_readme.sh file in each repo as this
         --addons-dir "$PWD"
 
 pre-commit hook
+---------------
 
-  - repo: https://github.com/jobiols/gen-readme.git
-    rev: 1.0.16
-    hooks:
-      - id: gen-readme
+You can use this module as a pre-commit plugin this way
+
+
+    - repo: https://github.com/jobiols/gen-readme.git
+        rev: 1.0.17
+        hooks:
+        - id: gen-readme

@@ -554,7 +554,8 @@ def gen_readme(files, org_name, repo_name, branch, addons_dir, gen_html):
 
         # verificar que en todos los modulos existe readme
         for module in modules:
-            if not "readme" in modules[module]:
+            file_list = modules[module]
+            if not "readme" in file_list and "__manifest__" in file_list:
                 bad_modules.append(module)
 
         for module in bad_modules:
