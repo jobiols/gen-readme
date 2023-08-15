@@ -4,11 +4,10 @@ README GENERATOR
 This package is based on the oca-gen-addon-readme from the OCA/maintainer-tools.git repo
 wich is licensed AGPL-3
 
-This is a small utility that generates high quality README for our odoo modules we
-in an automated way.
+This is a small utility that generates high quality README for our odoo modules in an automated way.
 
 The sections of the final README are organized in fragments. They must be put inside a
-readme folder respecting this structure.
+readme folder respecting this structure. If there is no readme folder it will be created.
 
     tony_stark_module
     ├── views
@@ -39,7 +38,7 @@ Installation
 
 see proyect in https://pypi.org/project/gen-odoo-readme/
 
-Use el comando gen-readme --help para obtener esta ayuda
+Use gen-readme --help to get this help
 
     Usage: gen-readme [OPTIONS]
 
@@ -74,7 +73,6 @@ pre-commit hook
 ---------------
 
 You can use this module as a pre-commit plugin this way
-
 
     - repo: https://github.com/jobiols/gen-readme.git
         rev: 1.0.17
