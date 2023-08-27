@@ -5,6 +5,7 @@ from .manifest import find_addons
 from jinja2 import Template
 from docutils.core import publish_file
 import tempfile
+from tools.__init__ import __version__
 
 FRAGMENTS_DIR = "readme"
 
@@ -86,12 +87,13 @@ RST2HTML_SETTINGS = {
 
 
 def gen_one_addon_index(readme_filename):
+    """Genera el readme en html"""
     addon_dir = os.path.dirname(readme_filename)
     index_dir = os.path.join(addon_dir, "static", "description")
     index_filename = os.path.join(index_dir, "index.html")
     if os.path.exists(index_filename):
         with open(index_filename) as f:
-            if "oca-gen-addon-readme" not in f.read():
+            if "gen-readme" not in f.read():
                 # index was created manually
                 return
     if not os.path.isdir(index_dir):
@@ -170,8 +172,11 @@ def generate_fragment(org_name, repo_name, branch, addon_name, file):
     return fragment
 
 
-def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, manifest):
-    fragments = dict()
+def gen_one_addon_readme(
+    web, org_name, repo_name, branch, addon_name, addon_dir, manifest
+):
+    """Genera el README.rst para el addon addon_name"""
+    fragments = {}
     readme_characters = 0
     for fragment_name in FRAGMENTS:
         fragment_filename = os.path.join(
@@ -191,7 +196,7 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
                 readme_characters += 0 if not fragment else len(fragment)
                 if fragment:
                     fragments[fragment_name] = fragment
-    badges = list()
+    badges = []
     development_status = manifest.get("development_status", "Beta").lower()
     if development_status in DEVELOPMENT_STATUS_BADGES:
         badges.append(DEVELOPMENT_STATUS_BADGES[development_status])
@@ -199,15 +204,7 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
     if license in LICENSE_BADGES:
         badges.append(LICENSE_BADGES[license])
     badges.append(make_repo_badge(org_name, repo_name, branch, addon_name))
-    authors = [
-        a.strip()
-        for a in manifest.get("author", "").split(",")
-        if "(OCA)" not in a
-        # remove OCA because it's in authors for the purpose
-        # of finding OCA addons in apps.odoo.com, OCA is not
-        # a real author, but is rather referenced in the
-        # maintainers section
-    ]
+    author = manifest.get("author", "")
     # generate
     template_filename = os.path.join(
         os.path.dirname(__file__), "gen_addon_readme.template"
@@ -220,7 +217,7 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
             template.render(
                 {
                     "addon_name": addon_name,
-                    "authors": authors,
+                    "author": author,
                     "badges": badges,
                     "branch": branch,
                     "fragments": fragments,
@@ -228,6 +225,7 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
                     "org_name": org_name,
                     "repo_name": repo_name,
                     "development_status": development_status,
+                    "web": web,
                     "toc": readme_characters > 1000,
                 }
             )
@@ -241,6 +239,15 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
     "files",
     type=click.Path(exists=False),
     nargs=-1,
+)
+@click.option(
+    "--version",
+    is_flag=True,
+    help="Show version and exit",
+)
+@click.option(
+    "--web",
+    help="Organization web",
 )
 @click.option(
     "--org-name",
@@ -265,8 +272,11 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
     default=True,
     help="Generate index html file.",
 )
-def gen_readme(files, org_name, repo_name, branch, addons_dir, gen_html):
+def gen_readme(files, version, web, org_name, repo_name, branch, addons_dir, gen_html):
     """main function"""
+
+    if version:
+        print(f"Gen readme version {__version__}")
 
     if files:
         # si vienen files es porque lo llamam del pre-commit
@@ -296,20 +306,22 @@ def gen_readme(files, org_name, repo_name, branch, addons_dir, gen_html):
             exit(1)
         exit(0)
 
-    addons = list()
+    addons = []
     if addons_dir:
         # obtiene lista de diccionarios con los datos relevantes de cada modulo.
         addons.extend(find_addons(addons_dir))
-
-    readme_filenames = list()
+    readme_filenames = []
     for addon_name, addon_dir, manifest in addons:
         # si no existe el readme (directorio) lo creamos
         if not os.path.exists(os.path.join(addon_dir, FRAGMENTS_DIR)):
             os.mkdir(os.path.join(addon_dir, FRAGMENTS_DIR))
 
+        # Generar README.rst
         readme_filename = gen_one_addon_readme(
-            org_name, repo_name, branch, addon_name, addon_dir, manifest
+            web, org_name, repo_name, branch, addon_name, addon_dir, manifest
         )
+
+        # parece que chequea que el rst sea correcto escribiendo en un temporarario
         check_rst(readme_filename)
         readme_filenames.append(readme_filename)
         if gen_html:

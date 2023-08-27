@@ -4,7 +4,7 @@ README GENERATOR
 This package is based on the oca-gen-addon-readme from the OCA/maintainer-tools.git repo
 wich is licensed AGPL-3
 
-This is a small utility that generates high quality README for our odoo modules we
+This is a small utility that generates high quality README for our odoo modules
 in an automated way.
 
 The sections of the final README are organized in fragments. They must be put inside a
@@ -25,7 +25,8 @@ readme folder respecting this structure.
     ├── static
     └── views
 
-eg. To generate the final README for each module of the repository we can say (if we are stand in the repository root)
+eg. To generate the final README for each module of the repository we can say (if we
+    are stand in the repository root)
 
     gen-readme --repo-name=stark-enterprises --branch=16.0 --addon-dir="$PWD"
 
@@ -65,6 +66,7 @@ We recommend to set a small make_readme.sh file in each repo as this
     # you must install this: pip install gen-odoo-readme
 
     gen-readme \
+        --web https://quilsoft.com \
         --org-name quilsoft-org \
         --repo-name star_enterprises \
         --branch 16.0 \

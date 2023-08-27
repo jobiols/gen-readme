@@ -6,10 +6,11 @@
     "configurations": [
         {
             "args": [
-                "--addons-dir=/odoo/ar/odoo-13.0e/tatakua/sources/tatakua-sh",
-                "--org-name=tecnopro",
-                "--repo-name=l10n-paraguay",
-                "--branch=13.0"
+                "--addons-dir=/odoo/ar/odoo-15.0e/waves15/sources/waves-modules",
+                "--org-name=wavesinmovement",
+                "--repo-name=tech",
+                "--branch=15.0",
+                "--web=https://wearesoftwarefactory.com.ar"
             ],
             "name": "Debug gen-readme proyect",
             "type": "python",
