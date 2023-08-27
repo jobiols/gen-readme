@@ -10,6 +10,7 @@ name: Uploading Python Package
 run-name: ${{ github.actor }} is Uploading Python Package
 
 on:
+  workflow_dispatch: # Se dispara manualmente
   release:
     types: [published]
 
