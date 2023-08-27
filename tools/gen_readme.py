@@ -60,6 +60,16 @@ LICENSE_BADGES = {
         "http://www.gnu.org/licenses/gpl-3.0-standalone.html",
         "License: GPL-3",
     ),
+    "OPL-1": (
+        "https://img.shields.io/badge/licence-OPL--1-blue.png",
+        "https://www.tldrlegal.com/license/open-public-license-v1-0-opl-1-0",
+        "License: OPL-1",
+    ),
+    "OEEL-1": (
+        "https://img.shields.io/badge/licence-OEEL--1-blue.png",
+        "https://www.tldrlegal.com/license/open-public-license-v1-0-opl-1-0",
+        "License: OPL-1",
+    ),
 }
 
 # this comes from pypa/readme_renderer
@@ -126,15 +136,8 @@ def check_rst(readme_filename):
         )
 
 
-def make_repo_badge(org_name, repo_name, branch, addon_name):
-    badge_repo_name = repo_name.replace("-", "--")
-    return (
-        "https://img.shields.io/badge/github-{org_name}%2F{badge_repo_name}"
-        "-lightgray.png?logo=github".format(**locals()),
-        "https://github.com/{org_name}/{repo_name}/tree/"
-        "{branch}/{addon_name}".format(**locals()),
-        "{org_name}/{repo_name}".format(**locals()),
-    )
+def make_pre_commit_badge():
+    return "https://https://img.shields.io/badge/pre_commit-passed-green"
 
 
 def generate_fragment(org_name, repo_name, branch, addon_name, file):
@@ -203,7 +206,7 @@ def gen_one_addon_readme(
     license = manifest.get("license")
     if license in LICENSE_BADGES:
         badges.append(LICENSE_BADGES[license])
-    badges.append(make_repo_badge(org_name, repo_name, branch, addon_name))
+    badges.append(make_pre_commit_badge())
     author = manifest.get("author", "")
     # generate
     template_filename = os.path.join(
