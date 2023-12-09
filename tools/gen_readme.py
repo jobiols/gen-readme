@@ -274,12 +274,7 @@ def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, man
     help="Directory containing several addons, the README will be "
     "generated for all installable addons found there...",
 )
-@click.option(
-    "--gen-html",
-    default=True,
-    help="Generate index html file.",
-)
-def gen_readme(files, version, org_name, repo_name, branch, addons_dir, gen_html):
+def gen_readme(files, version, org_name, repo_name, branch, addons_dir):
     """main function"""
 
     if version:
@@ -296,18 +291,6 @@ def gen_readme(files, version, org_name, repo_name, branch, addons_dir, gen_html
 
     if files:
         # Si hay files es porque se llamo desde pre-commit
-
-        # # si vienen files es porque lo llamam del pre-commit
-        # modules = dict()
-        # # armar diccionario con los modulos y los archivos / directorios de primer nivel
-        # for file in files:
-        #     if file.startswith(".") or len(file.split("/")) == 1:
-        #         continue
-        #     module = file.split("/")[0]
-        #     if not module in modules:
-        #         modules[module] = [file.split("/")[1]]
-        #     else:
-        #         modules[module].append(file.split("/")[1])
 
         modules = []
         # Armar lista con los modulos
@@ -334,32 +317,16 @@ def gen_readme(files, version, org_name, repo_name, branch, addons_dir, gen_html
                 org_name, repo_name, branch, addon_name, addon_dir, manifest
             )
 
-            # Si es necesario generamos el html
-            if gen_html:
-                if not manifest.get("preloadable", True):
-                    continue
-                gen_one_addon_index(readme_filename)
-
-        # bad_modules = []
-
-        # # verificar que en todos los modulos existe readme
-        # for module in modules:
-        #     file_list = modules[module]
-        #     if not "readme" in file_list and "__manifest__" in file_list:
-        #         bad_modules.append(module)
-
-        # for module in bad_modules:
-        #     print(f"There is no readme in {module}")
-
-        # if bad_modules:
-        #     exit(1)
-        # exit(0)
+            # Generamos el html
+            # if not manifest.get("preloadable", True):
+            #     continue
+            gen_one_addon_index(readme_filename)
 
     addons = []
     if addons_dir:
         # obtiene lista de diccionarios con los datos relevantes de cada modulo.
         addons.extend(find_addons(addons_dir))
-    readme_filenames = []
+    #    readme_filenames = []
     for addon_name, addon_dir, manifest in addons:
         # si no existe el readme (directorio) lo creamos
         if not os.path.exists(os.path.join(addon_dir, FRAGMENTS_DIR)):
@@ -371,11 +338,13 @@ def gen_readme(files, version, org_name, repo_name, branch, addons_dir, gen_html
         )
 
         # parece que chequea que el rst sea correcto escribiendo en un temporarario
-        check_rst(readme_filename)
-        readme_filenames.append(readme_filename)
-        if gen_html:
-            if not manifest.get("preloadable", True):
-                continue
-            index_filename = gen_one_addon_index(readme_filename)
-            if index_filename:
-                readme_filenames.append(index_filename)
+        #        check_rst(readme_filename)
+        #        readme_filenames.append(readme_filename)
+
+        # if not manifest.get("preloadable", True):
+        #     continue
+        gen_one_addon_index(readme_filename)
+
+
+#        if index_filename:
+#            readme_filenames.append(index_filename)
