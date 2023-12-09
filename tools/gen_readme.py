@@ -5,7 +5,8 @@ from .manifest import find_addons
 from jinja2 import Template
 from docutils.core import publish_file
 import tempfile
-from tools.__init__ import __version__
+from .__init__ import __version__
+from urllib.parse import urljoin
 
 FRAGMENTS_DIR = "readme"
 
@@ -72,6 +73,15 @@ LICENSE_BADGES = {
     ),
 }
 
+PRE_COMMIT_BADGES = {
+    "pre-commmit": (
+        "https://img.shields.io/badge/pre_commit-passed-green",
+        "https://pre-commit.com/",
+        "Pre-Commit",
+    ),
+}
+
+
 # this comes from pypa/readme_renderer
 RST2HTML_SETTINGS = {
     # Prevent local files from being included into the rendered output.
@@ -134,10 +144,6 @@ def check_rst(readme_filename):
             writer_name="html4css1",
             settings_overrides=RST2HTML_SETTINGS,
         )
-
-
-def make_pre_commit_badge():
-    return "https://https://img.shields.io/badge/pre_commit-passed-green"
 
 
 def generate_fragment(org_name, repo_name, branch, addon_name, file):
@@ -204,9 +210,12 @@ def gen_one_addon_readme(
     if development_status in DEVELOPMENT_STATUS_BADGES:
         badges.append(DEVELOPMENT_STATUS_BADGES[development_status])
     license = manifest.get("license")
+
     if license in LICENSE_BADGES:
         badges.append(LICENSE_BADGES[license])
-    badges.append(make_pre_commit_badge())
+
+    badges.append(PRE_COMMIT_BADGES["pre-commmit"])
+
     author = manifest.get("author", "")
     # generate
     template_filename = os.path.join(
@@ -282,6 +291,10 @@ def gen_readme(files, version, web, org_name, repo_name, branch, addons_dir, gen
         print(f"Gen readme version {__version__}")
 
     if files:
+        with open("files.txt", "w") as fi:
+            for file in files:
+                fi.write(file)
+
         # si vienen files es porque lo llamam del pre-commit
         modules = dict()
         # armar diccionario con los modulos y los archivos / directorios de primer nivel
@@ -294,7 +307,7 @@ def gen_readme(files, version, web, org_name, repo_name, branch, addons_dir, gen
             else:
                 modules[module].append(file.split("/")[1])
 
-        bad_modules = list()
+        bad_modules = []
 
         # verificar que en todos los modulos existe readme
         for module in modules:

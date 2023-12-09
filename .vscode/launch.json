@@ -5,19 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "args": [
-                "--addons-dir=/odoo/ar/odoo-15.0e/waves15/sources/waves-modules",
-                "--org-name=wavesinmovement",
-                "--repo-name=tech",
-                "--branch=15.0",
-                "--web=https://wearesoftwarefactory.com.ar"
-            ],
             "name": "Debug gen-readme proyect",
+            "args": [
+                "--addons-dir=/odoo/ar/odoo-16.0e/testpy16/sources/l10n-paraguay",
+                "--org-name=tecnopro-assistance",
+                "--repo-name=l10n-paraguay",
+                "--branch=16.0",
+                "--web=https://www.tecnopro.com.py"
+            ],
             "type": "python",
+            "python": "/usr/bin/python3",
             "request": "launch",
-            "console": "integratedTerminal",
-            "justMyCode": true,
-            "module": "tools.__main__"
+            "module": "gen_readme",
+            "justMyCode": true
         }
     ]
 }

@@ -79,6 +79,6 @@ You can use this module as a pre-commit plugin this way
 
 
     - repo: https://github.com/jobiols/gen-readme.git
-        rev: 1.0.17
+        rev: 1.2.2
         hooks:
         - id: gen-readme

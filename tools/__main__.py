@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from . import gen_readme
 
 if __name__ == "__main__":
