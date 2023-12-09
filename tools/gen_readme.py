@@ -292,8 +292,7 @@ def gen_readme(files, version, web, org_name, repo_name, branch, addons_dir, gen
 
     if files:
         with open("files.txt", "w") as fi:
-            for file in files:
-                fi.write(file)
+            fi.writelines(files)
 
         # si vienen files es porque lo llamam del pre-commit
         modules = dict()
