@@ -11,7 +11,6 @@
                 "--org-name=tecnopro-assistance",
                 "--repo-name=l10n-paraguay",
                 "--branch=16.0",
-                "--web=https://www.tecnopro.com.py"
             ],
             "type": "python",
             "python": "/usr/bin/python3",

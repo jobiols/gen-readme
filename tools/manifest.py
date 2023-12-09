@@ -29,7 +29,7 @@ def read_manifest(addon_dir):
         return parse_manifest(mf.read())
 
 
-def find_addons(addons_dir, installable_only=True):
+def find_addons(addons_dir, installable_only=True, this_modules=False):
     """yield (addon_name, addon_dir, manifest)"""
     for addon_name in os.listdir(addons_dir):
         addon_dir = os.path.join(addons_dir, addon_name)

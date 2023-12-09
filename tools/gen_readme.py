@@ -181,9 +181,7 @@ def generate_fragment(org_name, repo_name, branch, addon_name, file):
     return fragment
 
 
-def gen_one_addon_readme(
-    web, org_name, repo_name, branch, addon_name, addon_dir, manifest
-):
+def gen_one_addon_readme(org_name, repo_name, branch, addon_name, addon_dir, manifest):
     """Genera el README.rst para el addon addon_name"""
     fragments = {}
     readme_characters = 0
@@ -222,6 +220,7 @@ def gen_one_addon_readme(
         os.path.dirname(__file__), "gen_addon_readme.template"
     )
     readme_filename = os.path.join(addon_dir, "README.rst")
+    website = manifest.get("website", "https:/nowebsite.com")
     with open(template_filename, encoding="utf8") as tf:
         template = Template(tf.read())
     with open(readme_filename, "w", encoding="utf8") as rf:
@@ -237,7 +236,7 @@ def gen_one_addon_readme(
                     "org_name": org_name,
                     "repo_name": repo_name,
                     "development_status": development_status,
-                    "web": web,
+                    "web": website,
                     "toc": readme_characters > 1000,
                 }
             )
@@ -258,10 +257,6 @@ def gen_one_addon_readme(
     help="Show version and exit",
 )
 @click.option(
-    "--web",
-    help="Organization web",
-)
-@click.option(
     "--org-name",
     help="Organization name",
 )
@@ -280,47 +275,85 @@ def gen_one_addon_readme(
     "generated for all installable addons found there...",
 )
 @click.option(
-    "--gen-html/--no-gen-html",
+    "--gen-html",
     default=True,
     help="Generate index html file.",
 )
-def gen_readme(files, version, web, org_name, repo_name, branch, addons_dir, gen_html):
+def gen_readme(files, version, org_name, repo_name, branch, addons_dir, gen_html):
     """main function"""
 
     if version:
         print(f"Gen readme version {__version__}")
+        exit(0)
+
+    # ##################################################
+    # files = []
+    # if not files:
+    #     with open("doc/files.txt", "r") as fi:
+    #         for file in fi:
+    #             files.append(file)
+    # ##################################################
 
     if files:
-        with open("files.txt", "w") as fi:
-            for file in files:
-                fi.write(file + "\n")
+        # Si hay files es porque se llamo desde pre-commit
 
-        # si vienen files es porque lo llamam del pre-commit
-        modules = dict()
-        # armar diccionario con los modulos y los archivos / directorios de primer nivel
+        # # si vienen files es porque lo llamam del pre-commit
+        # modules = dict()
+        # # armar diccionario con los modulos y los archivos / directorios de primer nivel
+        # for file in files:
+        #     if file.startswith(".") or len(file.split("/")) == 1:
+        #         continue
+        #     module = file.split("/")[0]
+        #     if not module in modules:
+        #         modules[module] = [file.split("/")[1]]
+        #     else:
+        #         modules[module].append(file.split("/")[1])
+
+        modules = []
+        # Armar lista con los modulos
         for file in files:
+            # Quitar los archivos que no son directorios
             if file.startswith(".") or len(file.split("/")) == 1:
                 continue
             module = file.split("/")[0]
             if not module in modules:
-                modules[module] = [file.split("/")[1]]
-            else:
-                modules[module].append(file.split("/")[1])
+                modules.append(module)
 
-        bad_modules = []
+        # obtiene lista de diccionarios con los datos relevantes de cada modulo.
+        addons = []
+        # Aca le paso modules para que no mire otros modulos que no sean esos
+        # Porque desde el .pre-commit-config.yaml se le pueden limitar los modulos.
+        addons.extend(find_addons("./", this_modules=modules))
+        for addon_name, addon_dir, manifest in addons:
+            # si no existe el readme (directorio) lo creamos
+            if not os.path.exists(os.path.join(addon_dir, FRAGMENTS_DIR)):
+                os.mkdir(os.path.join(addon_dir, FRAGMENTS_DIR))
 
-        # verificar que en todos los modulos existe readme
-        for module in modules:
-            file_list = modules[module]
-            if not "readme" in file_list and "__manifest__" in file_list:
-                bad_modules.append(module)
+            # Generamos o Regenamos el readme
+            readme_filename = gen_one_addon_readme(
+                org_name, repo_name, branch, addon_name, addon_dir, manifest
+            )
 
-        for module in bad_modules:
-            print(f"There is no readme in {module}")
+            # Si es necesario generamos el html
+            if gen_html:
+                if not manifest.get("preloadable", True):
+                    continue
+                gen_one_addon_index(readme_filename)
 
-        if bad_modules:
-            exit(1)
-        exit(0)
+        # bad_modules = []
+
+        # # verificar que en todos los modulos existe readme
+        # for module in modules:
+        #     file_list = modules[module]
+        #     if not "readme" in file_list and "__manifest__" in file_list:
+        #         bad_modules.append(module)
+
+        # for module in bad_modules:
+        #     print(f"There is no readme in {module}")
+
+        # if bad_modules:
+        #     exit(1)
+        # exit(0)
 
     addons = []
     if addons_dir:
@@ -334,7 +367,7 @@ def gen_readme(files, version, web, org_name, repo_name, branch, addons_dir, gen
 
         # Generar README.rst
         readme_filename = gen_one_addon_readme(
-            web, org_name, repo_name, branch, addon_name, addon_dir, manifest
+            org_name, repo_name, branch, addon_name, addon_dir, manifest
         )
 
         # parece que chequea que el rst sea correcto escribiendo en un temporarario
