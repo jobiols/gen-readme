@@ -318,8 +318,6 @@ def gen_readme(files, version, org_name, repo_name, branch, addons_dir):
             )
 
             # Generamos el html
-            # if not manifest.get("preloadable", True):
-            #     continue
             gen_one_addon_index(readme_filename)
 
     addons = []
