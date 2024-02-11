@@ -25,7 +25,7 @@ setuptools.setup(
         "click==8.1.7",
         "jinja2==3.1.3",
         "docutils==0.20.1",
-        "pigments==1.6",
+        "Pygments==2.17.2",
     ],
     packages=setuptools.find_packages(),
     classifiers=[
