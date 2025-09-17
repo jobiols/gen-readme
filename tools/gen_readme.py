@@ -334,5 +334,3 @@ def gen_readme(files, version, org_name, repo_name, branch, addons_dir):
         #        readme_filenames.append(readme_filename)
 
         gen_one_addon_index(readme_filename)
-
-
