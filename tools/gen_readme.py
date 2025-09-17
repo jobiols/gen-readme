@@ -4,6 +4,7 @@ import re
 from .manifest import find_addons
 from jinja2 import Template
 from docutils.core import publish_file
+import sys
 import tempfile
 from .__init__ import __version__
 from urllib.parse import urljoin
@@ -279,7 +280,7 @@ def gen_readme(files, version, org_name, repo_name, branch, addons_dir):
 
     if version:
         print(f"Gen readme version {__version__}")
-        exit(0)
+        sys.exit(0)
 
     # ##################################################
     # files = []
