@@ -283,12 +283,6 @@ def gen_readme(files, version, org_name, repo_name, branch, addons_dir):
         sys.exit(0)
 
     # ##################################################
-    # files = []
-    # if not files:
-    #     with open("doc/files.txt", "r") as fi:
-    #         for file in fi:
-    #             files.append(file)
-    # ##################################################
 
     if files:
         # Si hay files es porque se llamo desde pre-commit
@@ -325,7 +319,6 @@ def gen_readme(files, version, org_name, repo_name, branch, addons_dir):
     if addons_dir:
         # obtiene lista de diccionarios con los datos relevantes de cada modulo.
         addons.extend(find_addons(addons_dir))
-    #    readme_filenames = []
     for addon_name, addon_dir, manifest in addons:
         # si no existe el readme (directorio) lo creamos
         if not os.path.exists(os.path.join(addon_dir, FRAGMENTS_DIR)):
@@ -340,10 +333,6 @@ def gen_readme(files, version, org_name, repo_name, branch, addons_dir):
         #        check_rst(readme_filename)
         #        readme_filenames.append(readme_filename)
 
-        # if not manifest.get("preloadable", True):
-        #     continue
         gen_one_addon_index(readme_filename)
 
 
-#        if index_filename:
-#            readme_filenames.append(index_filename)
